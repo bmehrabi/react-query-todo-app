@@ -1,0 +1,28 @@
+import {Button, Container, Form} from "react-bootstrap";
+
+const CreatePage = () => {
+    return (
+        <Container className="gap-3 p-3">
+            <Form>
+                <Form.Group className="mb-3" controlId="title">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control type="text" placeholder="Enter title" />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="isImportant">
+                    <Form.Check type="checkbox" label="Is Important?" />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="hasDone">
+                    <Form.Check type="checkbox" label="Has done?" />
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                    Create Todo
+                </Button>
+            </Form>
+        </Container>
+    )
+};
+
+export default CreatePage;
