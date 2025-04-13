@@ -3,14 +3,16 @@ import axios from "axios";
 import {API} from "../constants/api";
 import React from "react";
 import {TodoType} from "../models/Todo";
+import {REACT_QUERY_KEYS} from "../react-query/client";
+import LoadingComponent from "./loading";
 
 const Progress = () => {
     const { data, isLoading } = useQuery({
-        queryKey: ['todos'],
+        queryKey: [REACT_QUERY_KEYS.TODO_KEY],
         queryFn: () => axios(`${API}`).then((res) => res.data),
     });
 
-    if (isLoading) return <p>Loading ...</p>;
+    if (isLoading) return <LoadingComponent />;
 
     const finishedTodos = data.filter((item: TodoType) => item.hasDone);
 

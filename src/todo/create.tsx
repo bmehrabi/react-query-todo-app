@@ -4,7 +4,7 @@ import {TodoType} from "../models/Todo";
 import axios from "axios";
 import {API} from "../constants/api";
 import {useMutation} from "@tanstack/react-query";
-import {queryClient} from "../react-query/client";
+import {queryClient, REACT_QUERY_KEYS} from "../react-query/client";
 
 const CreatePage = () => {
     const [todo, setTodo] = useState<TodoType>({
@@ -42,7 +42,7 @@ const CreatePage = () => {
            isImportant: todo.isImportant,
        }),
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['todos']});
+            await queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.TODO_KEY]});
         }
     });
 
