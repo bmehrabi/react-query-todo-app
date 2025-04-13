@@ -3,6 +3,7 @@ import {FormEvent, useState} from "react";
 import {TodoType} from "../models/Todo";
 import axios from "axios";
 import {API} from "../constants/api";
+import {useMutation} from "@tanstack/react-query";
 
 const CreatePage = () => {
     const [todo, setTodo] = useState<TodoType>({
@@ -33,14 +34,20 @@ const CreatePage = () => {
         });
     };
 
+    const createTodoMutation = useMutation({
+       mutationFn: (todo: TodoType) => axios.post(`${API}`, {
+           title: todo.title,
+           hasDone: todo.hasDone,
+           isImportant: todo.isImportant,
+       }),
+        onSuccess: async (data) => {
+            console.log('onSuccess', data);
+        }
+    });
+
     const onSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        const result = await axios.post(`${API}`, {
-            title: todo.title,
-            hasDone: todo.hasDone,
-            isImportant: todo.isImportant,
-        });
-        console.log(result);
+        createTodoMutation.mutate(todo);
     }
 
     return (
