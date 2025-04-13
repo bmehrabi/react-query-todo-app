@@ -1,11 +1,18 @@
 import {Container, Form, Table} from "react-bootstrap";
 import {TodoType} from "../models/Todo";
+import {useQuery} from "@tanstack/react-query";
+import axios from "axios";
+import {API} from "../constants/api";
+import React from "react";
 
-type ListPagePropsType = {
-    todos: TodoType[];
-}
+const ListPage = () => {
+    const { data, isLoading } = useQuery({
+        queryKey: ['todos'],
+        queryFn: () => axios(`${API}`).then((res) => res.data),
+    });
 
-const ListPage = ({todos}: ListPagePropsType) => {
+    if (isLoading) return <p>Loading ...</p>;
+
     return (
         <Container className="gap-3 p-3">
             <Table striped bordered hover>
@@ -17,7 +24,7 @@ const ListPage = ({todos}: ListPagePropsType) => {
                 </tr>
                 </thead>
                 <tbody>
-                    {todos.map((todo) => {
+                    {data.map((todo: TodoType) => {
                         return (
                             <tr>
                                 <td>{todo.id}</td>

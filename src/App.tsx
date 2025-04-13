@@ -1,33 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import List from "./todo/list";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Header from "./header/header";
 import CreatePage from "./todo/create";
-import {TodoType} from "./models/Todo";
-import axios from "axios";
-import {API} from "./constants/api";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 function App() {
-    const [data, setData] = useState<TodoType[]>([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios(`${API}`);
-            setData(result.data);
-        };
+    const queryClient = new QueryClient();
 
-        fetchData();
-
-    }, [setData]);
   return (
-      <BrowserRouter>
-          <Header />
-          <Routes>
-              <Route path="/" element={<List todos={data} />} />
-              <Route path="/create" element={<CreatePage />} />
-          </Routes>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+              <Header />
+              <Routes>
+                  <Route path="/" element={<List />} />
+                  <Route path="/create" element={<CreatePage />} />
+              </Routes>
+          </BrowserRouter>
+      </QueryClientProvider>
   );
 }
 
