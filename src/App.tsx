@@ -7,9 +7,9 @@ import Header from "./header/header";
 import CreatePage from "./todo/create";
 import {TodoType} from "./models/Todo";
 import axios from "axios";
+import {API} from "./constants/api";
 
 function App() {
-    const API = 'http://localhost:8000/todos';
     const [data, setData] = useState<TodoType[]>([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -19,7 +19,7 @@ function App() {
 
         fetchData();
 
-    }, [setData, API]);
+    }, [setData]);
   return (
       <BrowserRouter>
           <Header />
