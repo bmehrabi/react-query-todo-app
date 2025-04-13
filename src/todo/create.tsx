@@ -4,6 +4,7 @@ import {TodoType} from "../models/Todo";
 import axios from "axios";
 import {API} from "../constants/api";
 import {useMutation} from "@tanstack/react-query";
+import {queryClient} from "../react-query/client";
 
 const CreatePage = () => {
     const [todo, setTodo] = useState<TodoType>({
@@ -40,8 +41,8 @@ const CreatePage = () => {
            hasDone: todo.hasDone,
            isImportant: todo.isImportant,
        }),
-        onSuccess: async (data) => {
-            console.log('onSuccess', data);
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['todos']});
         }
     });
 
