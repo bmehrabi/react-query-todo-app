@@ -27,7 +27,7 @@ const ListPage = () => {
             <tbody>
                 {data.map((todo: TodoType) => {
                     return (
-                        <tr>
+                        <tr key={todo.id}>
                             <td>{todo.id}</td>
                             <td>{todo.title}</td>
                             <td>
