@@ -5,6 +5,7 @@ import axios from "axios";
 import {API} from "../constants/api";
 import {useMutation} from "@tanstack/react-query";
 import {queryClient, REACT_QUERY_KEYS} from "../react-query/client";
+import ErrorBoxComponent from "./errorBox";
 
 const CreatePage = () => {
     const [todo, setTodo] = useState<TodoType>({
@@ -67,9 +68,10 @@ const CreatePage = () => {
                     <Form.Check onChange={(event) => setHasDone(event.target.checked)} type="checkbox" label="Has done?" />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" disabled={createTodoMutation.isPending}>
                     Create Todo
                 </Button>
+                {createTodoMutation.isError && (<ErrorBoxComponent />)}
             </Form>
         </Container>
     )

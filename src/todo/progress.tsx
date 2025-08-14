@@ -5,14 +5,17 @@ import React from "react";
 import {TodoType} from "../models/Todo";
 import {REACT_QUERY_KEYS} from "../react-query/client";
 import LoadingComponent from "./loading";
+import ErrorBoxComponent from "./errorBox";
 
 const Progress = () => {
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, isError } = useQuery({
         queryKey: [REACT_QUERY_KEYS.TODO_KEY],
         queryFn: () => axios(`${API}`).then((res) => res.data),
     });
 
     if (isLoading) return <LoadingComponent />;
+
+    if (isError) return <ErrorBoxComponent />;
 
     const finishedTodos = data.filter((item: TodoType) => item.hasDone);
 
