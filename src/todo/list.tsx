@@ -1,4 +1,4 @@
-import {Form, Table} from "react-bootstrap";
+import {Container, Form, Table} from "react-bootstrap";
 import {TodoType} from "../models/Todo";
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
@@ -19,29 +19,31 @@ const ListPage = () => {
     if (isError) return <ErrorBoxComponent />;
 
     return (
-        <Table striped bordered hover>
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Description</th>
-                <th>Has done?</th>
-            </tr>
-            </thead>
-            <tbody>
-                {data.map((todo: TodoType) => {
-                    return (
-                        <tr key={todo.id}>
-                            <td>{todo.id}</td>
-                            <td>{todo.title}</td>
-                            <td>
-                                <Form.Check type="checkbox" checked={todo.hasDone}>
-                                </Form.Check>
-                            </td>
-                        </tr>
-                    )
-                })}
-            </tbody>
-        </Table>
+        <Container className="gap-3 p-3">
+            <Table striped bordered hover>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>Has done?</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {data.map((todo: TodoType) => {
+                        return (
+                            <tr key={todo.id}>
+                                <td>{todo.id}</td>
+                                <td>{todo.title}</td>
+                                <td>
+                                    <Form.Check type="checkbox" checked={todo.hasDone}>
+                                    </Form.Check>
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </Table>
+        </Container>
     )
 };
 
