@@ -8,27 +8,37 @@ import {REACT_QUERY_KEYS} from "../react-query/client";
 import LoadingComponent from "./loading";
 import ErrorBoxComponent from "./errorBox";
 import EditModal from "./editModal";
+import DeleteModal from "./deleteModal";
 
 const ListPage = () => {
     const { data, isLoading, isError } = useQuery({
         queryKey: [REACT_QUERY_KEYS.TODO_KEY],
         queryFn: () => axios(`${API}`).then((res) => res.data),
     });
-    const [show, setShow] = React.useState(false);
+    const [editModalShow, setEditModalShow] = React.useState(false);
     const [todoForEdit, setTodoForEdit] = React.useState<TodoType>({title: '', isImportant: false, hasDone: false});
+
+    const [deleteModalShow, setDeleteModalShow] = React.useState(false);
+    const [todoForDelete, setTodoForDelete] = React.useState<TodoType>({title: '', isImportant: false, hasDone: false});
 
     if (isLoading) return <LoadingComponent />;
 
     if (isError) return <ErrorBoxComponent />;
 
     const handleEditTodo = (todo: TodoType) => {
-        setShow(true);
+        setEditModalShow(true);
         setTodoForEdit(todo);
+    }
+
+    const handleDeleteTodo = (todo: TodoType) => {
+        setDeleteModalShow(true);
+        setTodoForDelete(todo);
     }
 
     return (
         <Container className="gap-3 p-3">
-            <EditModal show={show} setShow={setShow} todoForEdit={todoForEdit} setTodoForEdit={setTodoForEdit} />
+            <EditModal show={editModalShow} setShow={setEditModalShow} todoForEdit={todoForEdit} setTodoForEdit={setTodoForEdit} />
+            <DeleteModal show={deleteModalShow} setShow={setDeleteModalShow} todoForDelete={todoForDelete} setTodoForDelete={setTodoForDelete} />
             <Table striped bordered hover>
                 <thead>
                 <tr>
@@ -37,6 +47,7 @@ const ListPage = () => {
                     <th>Is Important?</th>
                     <th>Has done?</th>
                     <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,6 +65,11 @@ const ListPage = () => {
                                 <td>
                                     <Button onClick={() => {handleEditTodo(todo)}}>
                                         Edit ToDo
+                                    </Button>
+                                </td>
+                                <td>
+                                    <Button variant="danger" onClick={() => {handleDeleteTodo(todo)}}>
+                                        Delete ToDo
                                     </Button>
                                 </td>
                             </tr>
